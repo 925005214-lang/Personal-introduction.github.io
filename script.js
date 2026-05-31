@@ -47,6 +47,12 @@
         try {
             const items = await loadProfile();
             items.forEach(({ field, value }) => {
+                // 思路文本框特殊处理
+                if (field === 'thought') {
+                    const el = document.getElementById('thoughtEditor');
+                    if (el) el.value = value;
+                    return;
+                }
                 const el = document.querySelector(`.editable[data-field="${field}"]`);
                 if (el) el.textContent = value;
             });
@@ -129,6 +135,18 @@ document.addEventListener('DOMContentLoaded', () => {
             if (target) target.classList.add('active');
         });
     });
+
+    // ===== 思路文本框自动保存 =====
+    const thoughtEditor = document.getElementById('thoughtEditor');
+    if (thoughtEditor) {
+        let thoughtTimer = null;
+        thoughtEditor.addEventListener('input', () => {
+            clearTimeout(thoughtTimer);
+            thoughtTimer = setTimeout(() => {
+                saveField('thought', thoughtEditor.value).catch(console.warn);
+            }, 500);
+        });
+    }
 
     // ===== 视频上传 =====
     const uploadArea = document.getElementById('uploadArea');

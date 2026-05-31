@@ -5,36 +5,88 @@
 }
 
 :root {
-    --primary: #6366f1;
-    --primary-light: #818cf8;
-    --primary-dark: #4f46e5;
-    --bg: #0f0f1a;
-    --bg-card: #1a1a2e;
-    --bg-card-hover: #1f1f36;
-    --text: #e2e8f0;
-    --text-muted: #94a3b8;
-    --border: #2d2d4a;
+    --primary: #5b7fff;
+    --primary-light: #7e9aff;
+    --primary-dark: #4a6ae0;
+    --bg-start: #e8f0fe;
+    --bg-end: #fce4ec;
+    --bg-card: rgba(255, 255, 255, 0.75);
+    --bg-card-hover: rgba(255, 255, 255, 0.9);
+    --text: #2c3e50;
+    --text-muted: #6b7c93;
+    --text-light: #8e9eb0;
+    --border: rgba(91, 127, 255, 0.15);
     --success: #22c55e;
-    --radius: 12px;
+    --radius: 16px;
+    --shadow: 0 2px 16px rgba(91, 127, 255, 0.08);
+    --shadow-hover: 0 6px 24px rgba(91, 127, 255, 0.15);
 }
 
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
-    background: var(--bg);
+    background: linear-gradient(135deg, var(--bg-start), var(--bg-end), #f3e5f5, var(--bg-start));
+    background-size: 400% 400%;
+    animation: gradientShift 15s ease infinite;
     color: var(--text);
     min-height: 100vh;
     overflow-x: hidden;
+    position: relative;
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* ===== 手语动作背景动画 ===== */
+.sign-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.sign-hand {
+    position: absolute;
+    font-size: 40px;
+    opacity: 0.12;
+    animation: floatHand 12s ease-in-out infinite;
+}
+
+.sign-hand:nth-child(1) { top: 10%; left: 5%; font-size: 50px; animation-delay: 0s; }
+.sign-hand:nth-child(2) { top: 30%; right: 8%; font-size: 35px; animation-delay: 2s; }
+.sign-hand:nth-child(3) { bottom: 20%; left: 3%; font-size: 45px; animation-delay: 4s; }
+.sign-hand:nth-child(4) { top: 60%; right: 3%; font-size: 30px; animation-delay: 1s; }
+.sign-hand:nth-child(5) { top: 5%; right: 30%; font-size: 38px; animation-delay: 3s; }
+.sign-hand:nth-child(6) { bottom: 5%; left: 20%; font-size: 42px; animation-delay: 5s; }
+.sign-hand:nth-child(7) { top: 45%; left: 2%; font-size: 28px; animation-delay: 2.5s; }
+.sign-hand:nth-child(8) { bottom: 35%; right: 5%; font-size: 36px; animation-delay: 4.5s; }
+
+@keyframes floatHand {
+    0%, 100% { transform: translateY(0) rotate(0deg) scale(1); }
+    25% { transform: translateY(-20px) rotate(10deg) scale(1.05); }
+    50% { transform: translateY(0) rotate(-5deg) scale(0.95); }
+    75% { transform: translateY(15px) rotate(8deg) scale(1.02); }
 }
 
 .container {
     display: flex;
     min-height: 100vh;
+    position: relative;
+    z-index: 1;
 }
 
 /* ===== 侧边栏 ===== */
 .sidebar {
     width: 240px;
     background: var(--bg-card);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     border-right: 1px solid var(--border);
     display: flex;
     flex-direction: column;
@@ -44,6 +96,7 @@ body {
     height: 100vh;
     z-index: 100;
     transition: transform 0.3s;
+    box-shadow: 2px 0 20px rgba(91, 127, 255, 0.06);
 }
 
 .logo {
@@ -53,7 +106,7 @@ body {
 
 .logo h2 {
     font-size: 20px;
-    background: linear-gradient(135deg, var(--primary-light), #a78bfa);
+    background: linear-gradient(135deg, var(--primary), #f48fb1);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -61,7 +114,7 @@ body {
 
 .logo-sub {
     font-size: 11px;
-    color: var(--text-muted);
+    color: var(--text-light);
     letter-spacing: 1px;
 }
 
@@ -80,19 +133,20 @@ body {
     cursor: pointer;
     color: var(--text-muted);
     font-size: 15px;
+    font-weight: 500;
     transition: all 0.2s;
     margin-bottom: 4px;
 }
 
 .nav-item:hover {
-    background: rgba(99, 102, 241, 0.1);
+    background: rgba(91, 127, 255, 0.08);
     color: var(--text);
 }
 
 .nav-item.active {
     background: linear-gradient(135deg, var(--primary), var(--primary-dark));
     color: #fff;
-    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+    box-shadow: 0 4px 15px rgba(91, 127, 255, 0.3);
 }
 
 .nav-icon {
@@ -109,7 +163,7 @@ body {
 
 .sidebar-footer p {
     font-size: 12px;
-    color: var(--text-muted);
+    color: var(--text-light);
     line-height: 1.5;
 }
 
@@ -141,6 +195,7 @@ body {
     margin-bottom: 24px;
     position: relative;
     padding-bottom: 12px;
+    color: var(--text);
 }
 
 .section-title::after {
@@ -150,23 +205,27 @@ body {
     left: 0;
     width: 60px;
     height: 3px;
-    background: linear-gradient(90deg, var(--primary), #a78bfa);
+    background: linear-gradient(90deg, var(--primary), #f48fb1);
     border-radius: 2px;
 }
 
 /* ===== 卡片通用 ===== */
 .card {
     background: var(--bg-card);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
     border: 1px solid var(--border);
     border-radius: var(--radius);
     padding: 28px;
     margin-bottom: 24px;
-    transition: all 0.2s;
+    transition: all 0.25s;
+    box-shadow: var(--shadow);
 }
 
 .card:hover {
     border-color: var(--primary);
-    box-shadow: 0 4px 20px rgba(99, 102, 241, 0.1);
+    box-shadow: var(--shadow-hover);
+    background: var(--bg-card-hover);
 }
 
 /* ===== 个人信息 ===== */
@@ -181,7 +240,7 @@ body {
     width: 56px;
     height: 56px;
     border-radius: 50%;
-    background: linear-gradient(135deg, var(--primary), #a78bfa);
+    background: linear-gradient(135deg, var(--primary), #f48fb1);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -190,6 +249,7 @@ body {
 
 .info-header h2 {
     font-size: 20px;
+    color: var(--text);
 }
 
 .info-grid {
@@ -200,8 +260,8 @@ body {
 }
 
 .info-item {
-    background: rgba(255, 255, 255, 0.03);
-    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 10px;
     padding: 14px 16px;
     border: 1px solid var(--border);
 }
@@ -209,7 +269,7 @@ body {
 .info-item label {
     display: block;
     font-size: 12px;
-    color: var(--text-muted);
+    color: var(--text-light);
     margin-bottom: 6px;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -218,22 +278,24 @@ body {
 .info-item span {
     font-size: 16px;
     font-weight: 500;
+    color: var(--text);
 }
 
 .info-reason {
-    background: rgba(99, 102, 241, 0.08);
-    border-radius: 8px;
+    background: rgba(91, 127, 255, 0.06);
+    border-radius: 10px;
     padding: 16px 20px;
-    border: 1px solid rgba(99, 102, 241, 0.2);
+    border: 1px solid rgba(91, 127, 255, 0.15);
 }
 
 .info-reason label {
     font-size: 12px;
-    color: var(--primary-light);
+    color: var(--primary);
     text-transform: uppercase;
     letter-spacing: 1px;
     margin-bottom: 8px;
     display: block;
+    font-weight: 600;
 }
 
 .info-reason p {
@@ -253,14 +315,14 @@ body {
 
 .editable:hover {
     border-bottom-color: var(--primary);
-    background: rgba(99, 102, 241, 0.08);
+    background: rgba(91, 127, 255, 0.08);
 }
 
 .editable.editing {
     border: 1px solid var(--primary);
-    background: rgba(99, 102, 241, 0.12);
+    background: rgba(255, 255, 255, 0.8);
     outline: none;
-    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+    box-shadow: 0 0 0 3px rgba(91, 127, 255, 0.15);
 }
 
 .editable.saved {
@@ -275,14 +337,15 @@ body {
 .edit-hint {
     display: none;
     font-size: 11px;
-    color: var(--text-muted);
+    color: var(--text-light);
     margin-left: 8px;
     opacity: 0.6;
 }
 
 .info-item:hover .edit-hint,
 .info-reason:hover .edit-hint,
-.other-item:hover .edit-hint {
+.other-item:hover .edit-hint,
+.thought-edit-area:hover .edit-hint {
     display: inline;
 }
 
@@ -299,7 +362,7 @@ body {
 .upload-area:hover,
 .upload-area.dragover {
     border-color: var(--primary);
-    background: rgba(99, 102, 241, 0.05);
+    background: rgba(91, 127, 255, 0.06);
 }
 
 .upload-icon {
@@ -315,13 +378,13 @@ body {
 
 .upload-hint {
     font-size: 13px;
-    color: var(--text-muted);
+    color: var(--text-light);
 }
 
 /* ===== 视频预览 ===== */
 .video-preview video {
     width: 100%;
-    border-radius: 8px;
+    border-radius: 10px;
     background: #000;
     max-height: 400px;
 }
@@ -336,7 +399,7 @@ body {
 .btn {
     padding: 10px 24px;
     border: none;
-    border-radius: 8px;
+    border-radius: 10px;
     font-size: 14px;
     font-weight: 600;
     cursor: pointer;
@@ -346,22 +409,22 @@ body {
 .btn-primary {
     background: linear-gradient(135deg, var(--primary), var(--primary-dark));
     color: #fff;
-    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+    box-shadow: 0 4px 12px rgba(91, 127, 255, 0.3);
 }
 
 .btn-primary:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+    box-shadow: 0 6px 20px rgba(91, 127, 255, 0.4);
 }
 
 .btn-secondary {
-    background: rgba(255, 255, 255, 0.08);
+    background: rgba(91, 127, 255, 0.08);
     color: var(--text);
     border: 1px solid var(--border);
 }
 
 .btn-secondary:hover {
-    background: rgba(255, 255, 255, 0.12);
+    background: rgba(91, 127, 255, 0.15);
 }
 
 /* ===== 进度条 ===== */
@@ -372,7 +435,7 @@ body {
 
 .progress-bar {
     height: 6px;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(91, 127, 255, 0.1);
     border-radius: 3px;
     overflow: hidden;
     margin-bottom: 12px;
@@ -381,14 +444,14 @@ body {
 .progress-fill {
     height: 100%;
     width: 0%;
-    background: linear-gradient(90deg, var(--primary), #a78bfa);
+    background: linear-gradient(90deg, var(--primary), #f48fb1);
     border-radius: 3px;
     transition: width 0.3s;
 }
 
 .progress-text {
     font-size: 14px;
-    color: var(--text-muted);
+    color: var(--text-light);
 }
 
 /* ===== 识别结果 ===== */
@@ -402,14 +465,14 @@ body {
 
 .result-label {
     font-size: 14px;
-    color: var(--text-muted);
+    color: var(--text-light);
     margin-right: 8px;
 }
 
 .result-value {
     font-size: 18px;
     font-weight: 600;
-    color: var(--primary-light);
+    color: var(--primary);
 }
 
 .result-confidence {
@@ -421,7 +484,7 @@ body {
 .confidence-bar {
     flex: 1;
     height: 8px;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(91, 127, 255, 0.1);
     border-radius: 4px;
     overflow: hidden;
 }
@@ -441,47 +504,52 @@ body {
     min-width: 48px;
 }
 
-/* ===== 思路 ===== */
-.thought-card h2 {
+/* ===== 思路框 ===== */
+.thought-edit-card h2 {
     font-size: 20px;
-    margin-bottom: 20px;
-}
-
-.thought-content {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.thought-step {
-    display: flex;
-    gap: 16px;
-    align-items: flex-start;
-}
-
-.step-number {
-    width: 36px;
-    height: 36px;
-    min-width: 36px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--primary), #a78bfa);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    font-size: 16px;
-}
-
-.step-detail h3 {
-    font-size: 16px;
-    margin-bottom: 6px;
+    margin-bottom: 16px;
     color: var(--text);
 }
 
-.step-detail p {
-    font-size: 14px;
-    line-height: 1.6;
-    color: var(--text-muted);
+.thought-edit-area {
+    position: relative;
+}
+
+.thought-edit-area .edit-hint {
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    display: none;
+}
+
+.thought-edit-area:hover .edit-hint {
+    display: inline;
+}
+
+.thought-editor {
+    width: 100%;
+    min-height: 240px;
+    padding: 16px 18px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.5);
+    color: var(--text);
+    font-size: 15px;
+    line-height: 1.8;
+    font-family: inherit;
+    resize: vertical;
+    transition: all 0.25s;
+    outline: none;
+}
+
+.thought-editor:focus {
+    border-color: var(--primary);
+    background: rgba(255, 255, 255, 0.85);
+    box-shadow: 0 0 0 3px rgba(91, 127, 255, 0.12);
+}
+
+.thought-editor::placeholder {
+    color: var(--text-light);
 }
 
 /* ===== 其他页面 ===== */
@@ -504,13 +572,14 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(99, 102, 241, 0.1);
+    background: rgba(91, 127, 255, 0.1);
     border-radius: 10px;
 }
 
 .other-item h3 {
     font-size: 15px;
     margin-bottom: 4px;
+    color: var(--text);
 }
 
 .other-item p,
@@ -520,7 +589,7 @@ body {
 }
 
 .other-item a {
-    color: var(--primary-light);
+    color: var(--primary);
     text-decoration: none;
 }
 
