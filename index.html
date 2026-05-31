@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>手语识别系统 - 项目展示</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- 左侧导航 -->
+        <nav class="sidebar">
+            <div class="logo">
+                <h2>手语识别</h2>
+                <span class="logo-sub">Sign Language Recognition</span>
+            </div>
+            <ul class="nav-list">
+                <li class="nav-item active" data-section="intro">
+                    <span class="nav-icon">👤</span>
+                    <span>自我介绍</span>
+                </li>
+                <li class="nav-item" data-section="demo">
+                    <span class="nav-icon">🎬</span>
+                    <span>Demo演示</span>
+                </li>
+                <li class="nav-item" data-section="other">
+                    <span class="nav-icon">📌</span>
+                    <span>其他</span>
+                </li>
+            </ul>
+            <div class="sidebar-footer">
+                <p>基于深度学习的<br>手语识别系统</p>
+            </div>
+        </nav>
+
+        <!-- 右侧内容 -->
+        <main class="content">
+            <!-- 自我介绍 -->
+            <section id="intro" class="section active">
+                <h1 class="section-title">自我介绍</h1>
+                <div class="card personal-info">
+                    <div class="info-header">
+                        <div class="avatar">👤</div>
+                        <h2>个人信息</h2>
+                    </div>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <label>姓名</label>
+                            <span id="name">张三</span>
+                        </div>
+                        <div class="info-item">
+                            <label>性别</label>
+                            <span id="gender">男</span>
+                        </div>
+                        <div class="info-item">
+                            <label>年龄</label>
+                            <span id="age">21</span>
+                        </div>
+                        <div class="info-item">
+                            <label>学院</label>
+                            <span id="college">计算机科学与技术学院</span>
+                        </div>
+                        <div class="info-item">
+                            <label>学号</label>
+                            <span id="student-id">2024XXXXXX</span>
+                        </div>
+                    </div>
+                    <div class="info-reason">
+                        <label>参与项目的原因</label>
+                        <p id="reason">对计算机视觉与手语翻译充满热情，希望通过深度学习技术帮助听障人士更便捷地融入社会，消除沟通障碍。</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Demo演示 -->
+            <section id="demo" class="section">
+                <h1 class="section-title">Demo演示</h1>
+                <div class="card demo-card">
+                    <div class="upload-area" id="uploadArea">
+                        <div class="upload-icon">📤</div>
+                        <p class="upload-text">点击或拖拽上传视频</p>
+                        <p class="upload-hint">支持 MP4, AVI, MOV 格式</p>
+                        <input type="file" id="videoInput" accept="video/*" hidden>
+                    </div>
+                    <div class="video-preview" id="videoPreview" style="display:none;">
+                        <video id="player" controls></video>
+                        <div class="video-actions">
+                            <button class="btn btn-secondary" id="changeVideoBtn">更换视频</button>
+                            <button class="btn btn-primary" id="recognizeBtn">开始识别</button>
+                        </div>
+                    </div>
+                    <div class="upload-progress" id="uploadProgress" style="display:none;">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progressFill"></div>
+                        </div>
+                        <p class="progress-text">保存中...</p>
+                    </div>
+                </div>
+
+                <!-- 识别结果 -->
+                <div class="card result-card" id="resultCard" style="display:none;">
+                    <h2>识别结果</h2>
+                    <div class="result-content" id="resultContent">
+                        <div class="result-text">
+                            <span class="result-label">识别内容：</span>
+                            <span class="result-value" id="recognizedText"></span>
+                        </div>
+                        <div class="result-confidence">
+                            <span class="result-label">置信度：</span>
+                            <div class="confidence-bar">
+                                <div class="confidence-fill" id="confidenceFill"></div>
+                            </div>
+                            <span class="confidence-value" id="confidenceValue"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 思路说明 -->
+                <div class="card thought-card">
+                    <h2>项目思路</h2>
+                    <div class="thought-content">
+                        <div class="thought-step">
+                            <div class="step-number">1</div>
+                            <div class="step-detail">
+                                <h3>数据采集与预处理</h3>
+                                <p>收集手语视频数据集，包括常见手势、字母、词汇等。对视频进行帧提取、关键点检测（MediaPipe）、数据增强等预处理操作。</p>
+                            </div>
+                        </div>
+                        <div class="thought-step">
+                            <div class="step-number">2</div>
+                            <div class="step-detail">
+                                <h3>特征提取</h3>
+                                <p>利用深度学习模型（如CNN + LSTM/Transformer）提取视频帧中的空间特征和时间序列特征，捕捉手语动作的时序信息。</p>
+                            </div>
+                        </div>
+                        <div class="thought-step">
+                            <div class="step-number">3</div>
+                            <div class="step-detail">
+                                <h3>模型训练</h3>
+                                <p>使用标注好的手语数据集训练分类模型，采用交叉验证、学习率调度、早停等策略优化模型性能，防止过拟合。</p>
+                            </div>
+                        </div>
+                        <div class="thought-step">
+                            <div class="step-number">4</div>
+                            <div class="step-detail">
+                                <h3>识别与输出</h3>
+                                <p>将训练好的模型部署到推理服务，输入视频流进行实时手语识别，输出对应的文字或语音结果。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 其他 -->
+            <section id="other" class="section">
+                <h1 class="section-title">其他</h1>
+                <div class="card other-card">
+                    <div class="other-item">
+                        <span class="other-icon">📧</span>
+                        <div>
+                            <h3>联系方式</h3>
+                            <p>zhangsan@example.com</p>
+                        </div>
+                    </div>
+                    <div class="other-item">
+                        <span class="other-icon">🔗</span>
+                        <div>
+                            <h3>GitHub</h3>
+                            <p><a href="#" target="_blank">github.com/zhangsan/sign-language-recognition</a></p>
+                        </div>
+                    </div>
+                    <div class="other-item">
+                        <span class="other-icon">📄</span>
+                        <div>
+                            <h3>技术栈</h3>
+                            <p>Python · PyTorch · OpenCV · MediaPipe · TensorFlow · Flask</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
