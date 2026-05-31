@@ -93,17 +93,19 @@
             <section id="demo" class="section">
                 <h1 class="section-title">Demo演示</h1>
                 <div class="card demo-card">
-                    <div class="upload-area" id="uploadArea">
+                    <div class="video-preview" id="videoPreview">
+                        <video id="player" controls>
+                            <source src="手语识别.mp4" type="video/mp4">
+                        </video>
+                        <div class="video-actions">
+                            <button class="btn btn-secondary" id="changeVideoBtn">更换视频</button>
+                        </div>
+                    </div>
+                    <div class="upload-area" id="uploadArea" style="display:none;">
                         <div class="upload-icon">📤</div>
                         <p class="upload-text">点击或拖拽上传视频</p>
                         <p class="upload-hint">支持 MP4, AVI, MOV 格式</p>
                         <input type="file" id="videoInput" accept="video/*" hidden>
-                    </div>
-                    <div class="video-preview" id="videoPreview" style="display:none;">
-                        <video id="player" controls></video>
-                        <div class="video-actions">
-                            <button class="btn btn-secondary" id="changeVideoBtn">更换视频</button>
-                        </div>
                     </div>
                     <div class="upload-progress" id="uploadProgress" style="display:none;">
                         <div class="progress-bar">

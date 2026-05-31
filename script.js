@@ -162,54 +162,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const confidenceFill = document.getElementById('confidenceFill');
     const confidenceValue = document.getElementById('confidenceValue');
 
-    const VIDEO_DB_NAME = 'SignLanguageDB';
-    const VIDEO_STORE = 'videos';
+    // 默认展示固定视频
+    const defaultVideo = '手语识别.mp4';
 
-    let videoDb = null;
-
-    function openVideoDB() {
-        return new Promise((resolve, reject) => {
-            const request = indexedDB.open(VIDEO_DB_NAME, 1);
-            request.onupgradeneeded = (e) => {
-                const d = e.target.result;
-                if (!d.objectStoreNames.contains(VIDEO_STORE)) {
-                    d.createObjectStore(VIDEO_STORE, { keyPath: 'id' });
-                }
-            };
-            request.onsuccess = (e) => { videoDb = e.target.result; resolve(videoDb); };
-            request.onerror = (e) => reject(e.target.error);
-        });
-    }
-
-    function saveVideoToDB(file) {
-        return new Promise((resolve, reject) => {
-            if (!videoDb) return reject('DB not ready');
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                const tx = videoDb.transaction(VIDEO_STORE, 'readwrite');
-                const store = tx.objectStore(VIDEO_STORE);
-                store.put({ id: 'demo_video', data: e.target.result, name: file.name, type: file.type });
-                tx.oncomplete = () => resolve();
-                tx.onerror = (e) => reject(e.target.error);
-            };
-            reader.readAsDataURL(file);
-        });
-    }
-
-    function loadVideoFromDB() {
-        return new Promise((resolve, reject) => {
-            if (!videoDb) return reject('DB not ready');
-            const tx = videoDb.transaction(VIDEO_STORE, 'readonly');
-            const store = tx.objectStore(VIDEO_STORE);
-            const request = store.get('demo_video');
-            request.onsuccess = (e) => resolve(e.target.result);
-            request.onerror = (e) => reject(e.target.error);
-        });
-    }
+    // 更换视频按钮
+    changeVideoBtn.addEventListener('click', () => {
+        videoInput.click();
+    });
 
     function handleVideo(file) {
         if (!file) return;
-        uploadArea.style.display = 'none';
         uploadProgress.style.display = 'block';
         resultCard.style.display = 'none';
 
@@ -221,31 +183,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 clearInterval(interval);
                 setTimeout(() => {
                     uploadProgress.style.display = 'none';
-                    videoPreview.style.display = 'block';
                     player.src = URL.createObjectURL(file);
                     player.load();
-                    saveVideoToDB(file).catch(console.warn);
                 }, 300);
             }
             progressFill.style.width = progress + '%';
         }, 100);
     }
-
-    async function restoreVideo() {
-        try {
-            const saved = await loadVideoFromDB();
-            if (saved && saved.data) {
-                uploadArea.style.display = 'none';
-                videoPreview.style.display = 'block';
-                player.src = saved.data;
-                player.load();
-            }
-        } catch (e) {
-            console.log('No saved video found');
-        }
-    }
-
-    openVideoDB().then(() => restoreVideo()).catch(console.warn);
 
     uploadArea.addEventListener('click', () => videoInput.click());
     uploadArea.addEventListener('dragover', (e) => { e.preventDefault(); uploadArea.classList.add('dragover'); });
@@ -257,7 +201,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (file && file.type.startsWith('video/')) handleVideo(file);
     });
     videoInput.addEventListener('change', (e) => { const file = e.target.files[0]; if (file) handleVideo(file); });
-    changeVideoBtn.addEventListener('click', () => videoInput.click());
 
     // 模拟识别
     recognizeBtn.addEventListener('click', () => {
